@@ -1,0 +1,31 @@
+// commands to create a linux service for running our receive.py 
+
+sudo nano /etc/systemd/system/receive.service
+
+// into the file, write the following
+
+[Unit]
+Description=Recieves sensor data from Arduino Uno 
+After=network.target 
+
+[Service]
+ExecStart=/usr/bin/python3 /path/to/receive.py 
+WorkingDirectory=/path/to/
+Restart=always
+User=pi_username
+Environment=PYTHONUNBUFFERED=1
+
+[Install]
+WantedBy=multi-user.target
+
+
+// reload systemd 
+sudo systemctl daemon-reload
+
+// enable the service
+sudo systemctl enable recieve.service
+
+// start the service
+sudo systemctl start receive.service 
+
+sudo systemctl status receive.service
